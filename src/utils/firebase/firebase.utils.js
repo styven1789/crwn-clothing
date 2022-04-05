@@ -32,7 +32,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const firebaseApp = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -66,12 +66,7 @@ export const getCategoriesAndDocuments = async () => {
   const q = query(collectionRef);
 
   const querySnapchot = await getDocs(q);
-  const categoryMap = querySnapchot.docs.reduce((acc, docSnapshot) => {
-    const { title, items } = docSnapshot.data();
-    acc[title.toLowerCase()] = items;
-    return acc;
-  }, {});  
-  return categoryMap;
+  return querySnapchot.docs.map((docSnapshot) => docSnapshot.data());
 }
 
 export const createUserDocumentFromAuth = async (
